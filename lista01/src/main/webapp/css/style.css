@@ -1,0 +1,21 @@
+#nav{
+	background-color: black;
+	height: 60px;
+}
+#nav h2{
+	padding-top: 10px; 
+	padding-left: 50px;
+	margin: 0px;
+	color: white;
+}
+#btns{
+	float: right;
+	padding-bottom: 100px: 
+}
+ td{
+	margin:0px;
+}
+table tbody td button{
+	margin:0;
+	padding: 0;
+}
