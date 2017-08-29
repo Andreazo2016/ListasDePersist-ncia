@@ -21,14 +21,21 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Scanner;
 
+import app.config.Settings;
 import app.model.Contato;
 
 public class ContatoCSV {
-	
-		public void addContato(Contato contato) throws FileNotFoundException, IOException{
-			Properties propriedade = new Properties();
-			propriedade.load(new FileInputStream("config.properties"));
-			String filePath = propriedade.getProperty("nameArquivo");
+
+	private Settings settings;
+	public ContatoCSV(){
+		this.settings = new Settings();
+	}
+	public void addContato(Contato contato) throws FileNotFoundException, IOException{
+
+		String filePath = settings.getPathFile();
+		if(filePath == null){
+			settings.CreateProperties();
+		}else{
 			String contatoCSV = "";
 			contatoCSV += contato.getNome() +","+contato.getEmail()+","+contato.getEndereco()+","+contato.getTelefone();
 			FileWriter fw = new FileWriter(filePath, true);
@@ -37,28 +44,30 @@ public class ContatoCSV {
 			conexao.newLine();
 			conexao.close();
 		}
-		public List<Contato> AllContato() throws FileNotFoundException, IOException{
-			List<Contato> listaContatos = new ArrayList<Contato>();
-			Properties propriedade = new Properties();
-			Contato contato = null;
-			propriedade.load(new FileInputStream("config.properties"));
-			String filePath = propriedade.getProperty("nameArquivo");
-			
+	}
+	public List<Contato> AllContato() throws FileNotFoundException, IOException{
+
+		List<Contato> listaContatos = new ArrayList<Contato>();
+		Contato contato = null;
+		String filePath = settings.getPathFile();
+		if(filePath == null){
+			settings.CreateProperties();
+		}else{
+
 			BufferedReader bf = new BufferedReader(new FileReader(filePath));
 			String linha="";
-			if((linha = bf.readLine()) != null){ 
-			while((linha = bf.readLine()) != null){
-				String [] Contatos = linha.split(",");
-				contato = new Contato();
-				contato.setNome(Contatos[0]);
-				contato.setEmail(Contatos[1]);
-				contato.setEndereco(Contatos[2]);
-				contato.setTelefone(Contatos[3]);
-				listaContatos.add(contato);
-			}
-			}
-			return listaContatos;
-			
+				while((linha = bf.readLine()) != null){
+					String [] Contatos = linha.split(",");
+					contato = new Contato();
+					contato.setNome(Contatos[0]);
+					contato.setEmail(Contatos[1]);
+					contato.setEndereco(Contatos[2]);
+					contato.setTelefone(Contatos[3]);
+					listaContatos.add(contato);
+				}
 		}
+		return listaContatos;
+
+	}
 
 }

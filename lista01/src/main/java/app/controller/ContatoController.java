@@ -22,17 +22,9 @@ public class ContatoController {
 	
 	@RequestMapping("/")
 	public String home() throws FileNotFoundException, IOException{
-		Settings set = new Settings();
-		set.CreateProperties();
 		return "forward:/index.html";
 	}
 	
-//	@RequestMapping("/addContato")
-//	public String addContato(Contato contato) throws FileNotFoundException, IOException{
-//		ContatoCSV contatoCSV = new ContatoCSV();
-//		contatoCSV.addContato(contato);
-//		return "redirect:/index.html";
-//	}
 	@RequestMapping("/Contato/add")
 	public String adicionarContato(Contato contato) throws FileNotFoundException, IOException{
 		ContatoCSV contatoCSV = new ContatoCSV();
