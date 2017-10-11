@@ -33,7 +33,7 @@ public class principal {
 		
 		*/
 
-		/*
+		
 		IDependenteDAO d = new DependenteH();
 		List<Dependente> l = d.getDependenteByNameCriteria("A");
 		for(Dependente de : l){
@@ -42,7 +42,7 @@ public class principal {
 			
 		}
 	
-		
+		/*
 		IFuncionarioDAO f  = new FuncionarioHP();
 		List<Funcionario> fu = f.getAllFuncionarioNativa();
 		for(Funcionario  fe : fu){
@@ -53,7 +53,7 @@ public class principal {
 		
 		*/
 		
-		
+		/*
 		IFuncionarioDAO func =  new FuncionarioHP();
 		IDependenteDAO dep = new DependenteH();
 		Funcionario fun = new Funcionario(93,123,"Julio","JUJU@gmail.com","123");
@@ -85,7 +85,7 @@ public class principal {
 		func.save(josafa);
 		
 		
-		
+		*/
 		
 		
 		

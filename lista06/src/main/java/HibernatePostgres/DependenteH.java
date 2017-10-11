@@ -13,6 +13,8 @@ import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.hibernate.query.criteria.internal.compile.CriteriaQueryTypeQueryAdapter;
+
 import DAO.IDependenteDAO;
 import Util.JPAUtil;
 import model.Dependente;
@@ -50,10 +52,14 @@ public class DependenteH implements IDependenteDAO {
 		EntityManager em =  JPAUtil.getEntityManagerByBDName("dev");
 		CriteriaBuilder cb  = em.getCriteriaBuilder();
 		CriteriaQuery<Dependente> cf = cb.createQuery(Dependente.class);
-		Root<Dependente> r = cf.from(Dependente.class);
-		Predicate predicate =  cb.and();
-		predicate = cb.and(predicate,cb.like(r.<String>get("nome"), name+"%"));	
-		TypedQuery<Dependente> tp = em.createQuery(cf.select(r).where(predicate));
+		Root<Dependente> r = cf.from(Dependente.class);		
+		r.fetch("funcionario");
+		cf.where(cb.like(r.<String>get("nome"), name+"%"));
+		//Predicate predicate ;
+		//predicate = cb.and(predicate,cb.like(r.<String>get("nome"), name+"%"));	
+		
+		TypedQuery<Dependente> tp = em.createQuery(cf);
+		
 		List<Dependente> dep = tp.getResultList();
 		JPAUtil.CloseEntity();
 		return dep ;
@@ -61,7 +67,7 @@ public class DependenteH implements IDependenteDAO {
 
 	public List<Dependente> getDependenteByNameJPQL(String name) {
 		EntityManager em  =  JPAUtil.getEntityManagerByBDName("dev");
-		List<Dependente> l = em.createQuery("from Dependente where nome like :nome",Dependente.class)
+		List<Dependente> l = em.createQuery("from Dependente d join fetch d.funcionario where d.nome like :nome",Dependente.class)
 				.setParameter("nome", name + "%")
 				.getResultList();
 		JPAUtil.CloseEntity();
